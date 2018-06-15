@@ -1,0 +1,5 @@
+package com.siam.services;
+
+public class AsyncService {
+
+}

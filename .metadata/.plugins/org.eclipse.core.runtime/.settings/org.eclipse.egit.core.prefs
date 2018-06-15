@@ -1,0 +1,4 @@
+GitRepositoriesView.GitDirectories=C\:\\Users\\syntel.PHX440G3-28160F\\Documents\\workspace-sts-3.9.3.RELEASE\\pcap4j\\.git;C\:\\Users\\syntel.PHX440G3-28160F\\Documents\\workspace-sts-3.9.3.RELEASE\\SupplierC\\.git;C\:\\Users\\syntel.PHX440G3-28160F\\Documents\\workspace-sts-3.9.3.RELEASE\\gs-serving-web-content\\.git;C\:\\Users\\syntel.PHX440G3-28160F\\Documents\\workspace-sts-3.9.3.RELEASE\\gs-messaging-stomp-websocket\\.git;C\:\\Users\\syntel.PHX440G3-28160F\\Documents\\workspace-sts-3.9.3.RELEASE\\service-project\\.git;C\:\\Users\\syntel.PHX440G3-28160F\\Documents\\workspace-sts-3.9.3.RELEASE\\gs-async-method\\.git;
+GitRepositoriesView.GitDirectories.relative=pcap4j\\.git;SupplierC\\.git;gs-serving-web-content\\.git;gs-messaging-stomp-websocket\\.git;service-project\\.git;gs-async-method\\.git;
+core_autoIgnoreDerivedResources=false
+eclipse.preferences.version=1

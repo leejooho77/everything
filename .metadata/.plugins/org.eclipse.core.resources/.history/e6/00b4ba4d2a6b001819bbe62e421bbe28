@@ -1,0 +1,98 @@
+package com.siam;
+
+import org.icmp4j.IcmpPingUtil;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+import java.util.concurrent.TimeUnit;
+
+import org.icmp4j.IcmpPingRequest;
+import org.icmp4j.IcmpPingResponse;
+
+public class PcapExample extends Thread {
+	
+	public void run() {
+		try {
+			sendPing(getName());
+		} catch(Exception e) {
+			System.out.println(e);
+		}
+	}
+	
+	public static void sendPing(String host) throws InterruptedException, IOException {
+//		final IcmpPingRequest request = IcmpPingUtil.createIcmpPingRequest ();
+//
+//		request.setHost (host);
+//		// delegate
+//		final IcmpPingResponse response = IcmpPingUtil.executePingRequest (request);
+//		// log
+////		final String formattedResponse = IcmpPingUtil.formatResponse (response);
+//		System.out.println("successFlag: " + response.getSuccessFlag());
+//		System.out.println("address: " + response.getHost());
+//		System.out.println("message: " + response.getErrorMessage());
+//		System.out.println("size: " + response.getSize());
+//		System.out.println("rtt: " + response.getRtt());
+//		System.out.println("ttl: " + response.getTtl());
+//		// rest
+//		Thread.sleep (1000);
+		
+		Runtime rt = Runtime.getRuntime();
+//    	Process process = rt.exec("ping -n 5 " + host);
+		Process process = rt.exec("nmap -p 515 " + host);
+//    	if(!process.waitFor(6000, TimeUnit.MILLISECONDS)) {
+//    		System.out.println(host + " is not responding...");
+//    		process.destroy();
+//    	} 
+    	BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream()));
+    	String line;
+    	String ipAddr = null;
+    	String type = null;
+    	while((line = br.readLine()) != null) {
+    		StringTokenizer st = new StringTokenizer(line);
+    		while(st.hasMoreTokens()) {
+    		String token = st.nextToken();
+	    		if(token.equals("for")) {
+					ipAddr = st.nextToken().trim();
+				}
+    			if(token.equals("open")) {
+    				type = st.nextToken();
+    			}
+    			if(ipAddr != null && type != null) {
+    				System.out.println(ipAddr + " is a " + type);
+    				ipAddr = null;
+    				type = null;
+    			}
+    		}
+    	}
+		
+	}
+	
+//	public static boolean checkSuccess(String host){
+//        final IcmpPingRequest request = IcmpPingUtil.createIcmpPingRequest ();
+//        request.setHost (host);
+//        final IcmpPingResponse response = IcmpPingUtil.executePingRequest (request);
+//        return response.getSuccessFlag();
+//    }
+//	
+//	public static boolean checkTimeoutFlag(String host){
+//        final IcmpPingRequest request = IcmpPingUtil.createIcmpPingRequest ();
+//        request.setHost (host);
+//        final IcmpPingResponse response = IcmpPingUtil.executePingRequest (request);
+//        return response.getTimeoutFlag();
+//    }
+//	
+//	public static String returnStatement(String host){
+//        String str = "";
+//        if(checkSuccess(host) && !checkTimeoutFlag(host)) {
+//            str =  "System is up and running";
+//        }else if (!checkSuccess(host) && !checkTimeoutFlag(host)){
+//            str = "System is not working";
+//        }else if (!checkSuccess(host) && checkTimeoutFlag(host)){
+//            str = "System is shutdown";
+//        }
+//        return str;
+//    }
+	
+}

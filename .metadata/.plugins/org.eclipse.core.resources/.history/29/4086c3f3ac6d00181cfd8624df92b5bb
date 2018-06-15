@@ -1,0 +1,71 @@
+package com.siam.services;
+
+import org.icmp4j.IcmpPingRequest;
+import org.icmp4j.IcmpPingResponse;
+import org.icmp4j.IcmpPingUtil;
+
+public class ThreadServices implements Runnable {
+
+	private IcmpPingRequest request;
+	private IcmpPingResponse response;
+	private String hostMsg;
+	private String successMsg;
+	private String messageFromPing;
+	private boolean successFlag;
+	private int rtt;
+	
+
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+		String host = Thread.currentThread().getName();
+		request = IcmpPingUtil.createIcmpPingRequest();
+		request.setHost(host);
+		response = IcmpPingUtil.executePingRequest(request);
+		setHostMsg("IP ADDRESS: " + host);
+		successMsg = "SUCCESS: " + successFlag;
+		messageFromPing = response.getErrorMessage();
+		rtt = response.getRtt();
+	}
+	
+	public String getHostMsg() {
+		return hostMsg;
+	}
+
+	public void setHostMsg(String hostMsg) {
+		this.hostMsg = hostMsg;
+	}
+
+	public String getSuccessMsg() {
+		return successMsg;
+	}
+
+	public void setSuccessMsg(String successMsg) {
+		this.successMsg = successMsg;
+	}
+
+	public String getMessageFromPing() {
+		return messageFromPing;
+	}
+
+	public void setMessageFromPing(String messageFromPing) {
+		this.messageFromPing = messageFromPing;
+	}
+
+	public boolean isSuccessFlag() {
+		return successFlag;
+	}
+
+	public void setSuccessFlag(boolean successFlag) {
+		this.successFlag = successFlag;
+	}
+
+	public int getRtt() {
+		return rtt;
+	}
+
+	public void setRtt(int rtt) {
+		this.rtt = rtt;
+	}
+	
+}

@@ -1,0 +1,15 @@
+package dp;
+
+public class Stick {
+	
+	private static final int[] PRICE = {0, 1, 5, 8, 9, 10, 17, 17, 20, 24, 30};
+	
+	public static int findMaxPrice() {
+		
+	}
+	
+	public static void main(String[] args) {
+		
+	}
+
+}

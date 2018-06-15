@@ -1,0 +1,69 @@
+package com.siam;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+
+//import org.nmap4j.Nmap4j;
+//import org.nmap4j.core.nmap.ExecutionResults;
+//import org.nmap4j.parser.NMapRunHandlerImpl;
+
+public class IPScanner {
+	
+	public void scanSubnet() throws IOException {
+		String subnet = "192.168.88.";
+		LOGGER.info("Scanning all ip addresses in " + subnet);
+		Runtime rt = Runtime.getRuntime();
+		Process process = rt.exec("nmap -p 515 " + subnet + "*");
+//    	Process process = rt.exec("nmap -p 515, 62078 " + subnet + "*");
+    	BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream()));
+    	String ipAddr = null;
+		String macAddr = null;
+		String company = null;
+		String type = null;
+    	String line;
+    	
+    	while((line = br.readLine()) != null) {
+    		StringTokenizer st = new StringTokenizer(line);
+    		while(st.hasMoreTokens()) {
+    			String token = st.nextToken();
+    			if(token.equals("for")) {
+    				ipAddr = st.nextToken().trim();
+    			}
+    			if(token.equals("open")) {
+    				type = st.nextToken().trim();
+    			}
+    			if(token.equals("Address:")) {
+    				macAddr = st.nextToken().trim();
+    				company = st.nextToken();
+    				while(company.charAt(company.length() - 1) != ')')
+    					company += " " + st.nextToken();
+    				company = company.substring(1, company.length()-1);
+    			}
+    			if(ipAddr != null && macAddr != null && company != null) {
+    				if(deviceDao.countDeviceByMac(macAddr) == 0) {
+    					if(type == null) type = "PC";
+    					deviceDao.insertDevice(macAddr, ipAddr, company, type, 1);
+    					LOGGER.info(macAddr + " " + ipAddr + " " + company + " is inserted in DB");
+    				} else {
+    					// Check if there are same ip addresses!!
+    					LOGGER.info("Machine with " + macAddr + " is already in DB");
+    					LOGGER.info("Checking IP address of " + macAddr);
+    					deviceDao.updateConnectedDevice(macAddr);
+    					if(!deviceDao.getDeviceByMac(macAddr).getIpaddr().equals(ipAddr)) {
+    						deviceDao.updateDevice(macAddr, ipAddr);
+    						LOGGER.info(macAddr + "'s IP address has changed to " + ipAddr);
+    					}
+    				}
+	    			ipAddr = null;
+	    			macAddr = null;
+	    			company = null;
+	    			type = null;
+    			}
+    		}
+    	}
+    	messageService.results();
+    	trigger();
+	}
+}

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;gs-rest-service-initial&apos; to &apos;players_demo&apos;" description="Rename resource &apos;gs-rest-service-initial&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="/gs-rest-service-initial" name="players_demo" stamp="1523972528277" updateReferences="true"/>
+</session>
